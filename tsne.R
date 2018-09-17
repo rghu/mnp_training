@@ -24,7 +24,7 @@ source("R/RSpectra_pca.R")
 message("loading preprocessed data ...",Sys.time())
 load("./results/betas.ba.RData")
 
-# methylation classed
+# methylation classes
 y <- as.factor(anno$`methylation class:ch1`)
 
 # sd pre filtering to 32k probes
