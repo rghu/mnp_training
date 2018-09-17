@@ -27,7 +27,7 @@ load("./results/betas.ba.RData")
 # methylation classes
 y <- as.factor(anno$`methylation class:ch1`)
 
-# sd pre filtering to 32k probes
+# sd filtering to 32k probes
 betas <- betas[,order(-apply(betas,2,sd))[1:32000]]
 
 # calculate first 94 PCs
