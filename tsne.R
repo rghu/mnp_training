@@ -6,7 +6,7 @@
 # 
 # Note, here tSNE is performed on the principal components (PCs) calculated via the singular value decompostion (SVD) 
 # of the beta methylation matrix and not, as described in the paper, via the eigenvalue decomposition of the covariance variance matrix
-# of the beta matrix. SVD
+# of the beta matrix. 
 # Results will be comparable.
 #
 # 2018-03-14 UTC
