@@ -93,3 +93,7 @@ betas <- as.data.frame(t(betas))
 save(betas,anno,file="./results/betas.ba.RData")  
 message("preprocessing finished ...",Sys.time())
 
+# perform unsupervised feature selection to generate a benchmarking data set
+sds <- apply(betas,1,sd)
+betas <- betas[order(sds,decreasing=TRUE)[1:10000],]
+save(betas,anno,file="MNPbetas10Kvar.RData")  
