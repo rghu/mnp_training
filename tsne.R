@@ -4,9 +4,10 @@
 # Martin Sill
 # m.sill@dkfz.de                                                                  
 # 
-# Note, here tSNE is performed on the principal components (PCs) calculated via the singular value decompostion (SVD) of the beta methylation matrix and not
-# as described in the paper via the eigenvalue decomposition covariance variance matrix of the beta matrix.
-# However, results are comparable.
+# Note, here tSNE is performed on the principal components (PCs) calculated via the singular value decompostion (SVD) 
+# of the beta methylation matrix and not, as described in the paper, via the eigenvalue decomposition of the covariance variance matrix
+# of the beta matrix. 
+# Results will be comparable.
 #
 # 2018-03-14 UTC
 #------------------------------------------------------------------------------------                   
@@ -23,10 +24,10 @@ source("R/RSpectra_pca.R")
 message("loading preprocessed data ...",Sys.time())
 load("./results/betas.ba.RData")
 
-# methylation classed
+# methylation classes
 y <- as.factor(anno$`methylation class:ch1`)
 
-# sd pre filtering to 32k probes
+# sd filtering to 32k probes
 betas <- betas[,order(-apply(betas,2,sd))[1:32000]]
 
 # calculate first 94 PCs
