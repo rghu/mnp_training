@@ -96,4 +96,5 @@ message("preprocessing finished ...",Sys.time())
 # perform unsupervised feature selection to generate a benchmarking data set
 sds <- apply(betas,1,sd)
 betas <- betas[order(sds,decreasing=TRUE)[1:10000],]
-save(betas,anno,file="MNPbetas10Kvar.RData")  
+y <- anno$`methylation class:ch1`
+save(betas,y,file="MNPbetas10Kvar.RData")  
