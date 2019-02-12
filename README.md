@@ -1,6 +1,5 @@
 # mnp_training
 
-test
 
 Collection of scripts used to train and validate the classifier presented in
 
