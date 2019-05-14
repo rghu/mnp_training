@@ -22,14 +22,15 @@ cores <- 4
 registerDoParallel(cores)
 
 message("loading data ...",Sys.time())
-load("./results/Mset_filtered.RData")
-load("./CV/nfolds.RData")
+load(file.path("results","Mset_filtered.RData"))
+load(file.path("CV","nfold.RData"))
 
 for(i in 1:length(nfolds)){
   scores <- list() 
   idx <- list()
   for(j in 1:length(nfolds)){
-    load(paste0("./CV/CVfold.",i,".",j,".RData"))
+    fname <- paste0("CVfold.",i,".",j,".RData")
+    load(file.path("CV",fname))
     scores[[j]] <- rf.scores
     idx[[j]] <- nfolds[[i]][[2]][[j]]$test
   }
@@ -42,8 +43,8 @@ for(i in 1:length(nfolds)){
   suppressWarnings(cv.calfit <- cv.glmnet(y=y,x=scores,family="multinomial",type.measure="mse",
                                           alpha=0,nlambda=100,lambda.min.ratio=10^-6,parallel=TRUE))
   
-  
-  load(paste0("./CV/CVfold.",i,".",0,".RData"))
+  fname <- paste0("CVfold.",i,".",0,".RData")
+  load(file.path("CV",fname))
   
   message("calibrating raw scores fold ",i," ...",Sys.time())
   probs <- predict(cv.calfit$glmnet.fit,newx=rf.scores,type="response"
@@ -54,13 +55,15 @@ for(i in 1:length(nfolds)){
   
   message("misclassification error: ",err)
   
-  save(probs,file=paste0("./CV/probsCVfold.",i,".",0,".RData"))
+  fname_probs <- paste0("probsCVfold.",i,".",0,".RData")
+  save(probs,file=file.path("CV",fname_probs))
 }
 
 scores <- list()
 idx <- list()
 for(i in 1:length(nfolds)){
-  load(paste0("./CV/CVfold.",i,".",0,".RData"))
+  fname <- paste0("CVfold.",i,".",0,".RData")
+  load(file.path("CV",fname))
   scores[[i]] <- rf.scores
   idx[[i]] <- nfolds[[i]][[1]][[1]]$test
 }
@@ -68,7 +71,8 @@ scores <- do.call(rbind,scores)
 
 probl <- list()
 for(i in 1:length(nfolds)){
-  load(paste0("./CV/probsCVfold.",i,".",0,".RData"))
+  fname <- paste0("probsCVfold.",i,".",0,".RData")
+  load(file.path("CV",fname))
   probl[[i]] <- probs
 }
 probs <- do.call(rbind,probl)
@@ -91,9 +95,9 @@ message("fitting final calibration model ...",Sys.time())
 suppressWarnings(cv.calfit <- cv.glmnet(y=y,x=scores,family="multinomial",type.measure="mse",
                                         alpha=0,nlambda=100,lambda.min.ratio=10^-6,parallel=TRUE))
 
-save(cv.calfit,file="./results/calfit.RData")
+save(cv.calfit,file=file.path("results","calfit.RData"))
 
-save(scores,probs,y,ys,yp,file="./results/CVresults.RData")
+save(scores,probs,y,ys,yp,file=file.path("results","CVresults.RData"))
 
 message("generating report ...",Sys.time())
 rmarkdown::render("CVresults.Rmd")

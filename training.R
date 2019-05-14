@@ -24,10 +24,10 @@ seed <- 180314
 p <- 10000   
 
 message("loading preprocessed data ...",Sys.time())
-load("./results/betas.ba.RData")
+load(file.path("results","betas.ba.RData"))
 
 message("performing variable selection ...",Sys.time())
-source("./R/train.R")
+source(file.path("R","train.R"))
 y <- as.factor(anno$`methylation class:ch1`)
 
 # sd pre filtering to 20k probes, to speed up the example
@@ -51,7 +51,7 @@ rf.varsel <- rfp(betas,
 imp.meandecrease <- rf.varsel$importance[,dim(rf.varsel$importance)[2]-1]
 
 # save selection forest
-save(rf.varsel,file="./results/varsel.RData")
+save(rf.varsel,file=file.patht("results","varsel.RData"))
 rm(rf.varsel)
 
 # reduce data matrix
@@ -86,6 +86,6 @@ rf.pred <- randomForest(betasy,
 
 message("finished ...",Sys.time())
 
-save(rf.pred,file="./results/rf.pred.RData")
+save(rf.pred,file=file.path("results","rf.pred.RData"))
 
 message("finished ...",Sys.time())

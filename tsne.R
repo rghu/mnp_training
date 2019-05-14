@@ -19,10 +19,10 @@ rm(list=ls())
 library(Rtsne)
 library(RSpectra)
 
-source("R/RSpectra_pca.R")
+source(file.path("R","RSpectra_pca.R"))
 
 message("loading preprocessed data ...",Sys.time())
-load("./results/betas.ba.RData")
+load(file.path("results","betas.ba.RData"))
 
 # methylation classes
 y <- as.factor(anno$`methylation class:ch1`)

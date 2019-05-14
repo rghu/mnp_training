@@ -23,22 +23,22 @@ p <- 10000
 folds <- 3
 
 message("loading filtered Mset ...",Sys.time())
-load("./results/Mset_filtered.RData")
+load(file.path("results","Mset_filtered.RData"))
 
 y <- as.factor(anno$`methylation class:ch1`)
 batch <- as.factor(anno$`material:ch1`)
 
-source("./R/makefolds.R")
-source("./R/train.R")
-source("./R/calculateCVfold.R")
-source("./R/batchadjust.R")
+source(file.path("R","makefolds.R"))
+source(file.path("R","train.R"))
+source(file.path("R","calculateCVfold.R"))
+source(file.path("R","batchadjust.R"))
 
-if(!file.exists("./CV/nfolds.RData")){
-  dir.create("./CV",showWarnings = FALSE)
+if(!file.exists(file.path("CV","nfolds.RData"))){
+  dir.create("CV",showWarnings = FALSE)
   nfolds <- makenestedfolds(y,folds)
-  save(nfolds,file="./CV/nfolds.RData")
+  save(nfolds,file=file.path("CV","nfolds.RData"))
 }
-load("./CV/nfolds.RData")
+load(file.path("CV","nfolds.RData"))
 
 message("performing nested CV ...", Sys.time())
 message("check minimal class sizes for inner training loops")
@@ -66,7 +66,8 @@ for(K in 1:folds){
     
     rf.scores <- calcultateCVfold(Mset,y,batch,fold,p,cores,ntrees)
     
-    save(rf.scores,file=paste("./CV/CVfold",K,k,"RData",sep="."))
+    fname <- paste("CVfold",K,k,"RData",sep=".")
+    save(rf.scores,file=file.path("CV",fname))
     
     rm(rf.scores)
     gc()

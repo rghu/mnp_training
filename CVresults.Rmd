@@ -7,10 +7,10 @@ output: html_document
 rm(list=ls())
 library(pROC)
 library(HandTill2001)
-source("./R/multi_brier.R")
-source("./R/multi_logloss.R")
+source(file.path("R","multi_brier.R"))
+source(file.path("R","multi_logloss.R"))
 
-load("./results/CVresults.RData")
+load(file.path("results","CVresults.RData"))
 
 AUCscores <- HandTill2001::auc(multcap(response=as.factor(y),predicted=scores))
 AUCprobs <-  HandTill2001::auc(multcap(response=as.factor(y),predicted=probs))

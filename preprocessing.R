@@ -16,9 +16,9 @@ library(GEOquery)
 library(limma)
 library(openxlsx)
 
-source("./R/MNPprocessIDAT_functions.R")
+source(file.path("R","MNPprocessIDAT_functions.R"))
 
-dir.create("./results")
+dir.create("results")
 
 # get sample annotation from GEO
 gse <- getGEO("GSE90496", GSEMatrix=TRUE, getGPL=FALSE)
@@ -28,7 +28,7 @@ anno <- pData(gse$GSE90496_series_matrix.txt.gz)
 anno <- anno[grep("ATRT",anno$`methylation class:ch1`),]
 
 # read raw data downloaded from GEO and extracted in GSE90496_RAW
-filepath <- paste0("GSE90496_RAW/",gsub("_Grn.*","",gsub(".*suppl/","",anno$supplementary_file)))
+filepath <- file.path("GSE90496_RAW",gsub("_Grn.*","",gsub(".*suppl/","",anno$supplementary_file)))
 RGset <- read.metharray(filepath,verbose=TRUE)
 
 # Illumina normalization
@@ -37,10 +37,10 @@ Mset <- MNPpreprocessIllumina(RGset)
 
 # probe filtering
 message("probe filtering ...",Sys.time())
-amb.filter <- read.table("./filter/amb_3965probes.vh20151030.txt",header=F)
-epic.filter <- read.table("./filter/epicV1B2_32260probes.vh20160325.txt",header=F)
-snp.filter <- read.table("./filter/snp_7998probes.vh20151030.txt",header=F)
-xy.filter <- read.table("./filter/xy_11551probes.vh20151030.txt",header=F)
+amb.filter <- read.table(file.path("filter","amb_3965probes.vh20151030.txt"),header=F)
+epic.filter <- read.table(file.path("filter","epicV1B2_32260probes.vh20160325.txt"),header=F)
+snp.filter <- read.table(file.path("filter","snp_7998probes.vh20151030.txt"),header=F)
+xy.filter <- read.table(file.path("filter","xy_11551probes.vh20151030.txt"),header=F)
 rs.filter <- grep("rs",rownames(Mset))
 ch.filter <- grep("ch",rownames(Mset))
 
@@ -54,7 +54,7 @@ remove <- unique(c(match(amb.filter[,1], rownames(Mset)),
 
 Mset_filtered <- Mset[-remove,]
 
-save(Mset,anno,file="./results/Mset_filtered.RData")  
+save(Mset,anno,file=file.path("results","Mset_filtered.RData"))  
 
 rm(Mset)
 gc()
@@ -85,16 +85,10 @@ unmethy.coef[["Frozen"]] <- log2(unmethy.ba[, s.frozen]) - log2(unmethy[, s.froz
 unmethy.coef[["FFPE"]] <- log2(unmethy.ba[, s.ffpe]) - log2(unmethy[, s.ffpe] +1)
 
 # save batch effects 
-save(methy.coef,unmethy.coef,file="./results/ba.coef.RData") 
+save(methy.coef,unmethy.coef,file=file.path("results","ba.coef.RData")) 
 
 # recalculate betas, illumina like
 betas <- methy.ba / (methy.ba +unmethy.ba +100)
 betas <- as.data.frame(t(betas))
-save(betas,anno,file="./results/betas.ba.RData")  
+save(betas,anno,file=file.path("results","betas.ba.RData"))  
 message("preprocessing finished ...",Sys.time())
-
-# perform unsupervised feature selection to generate a benchmarking data set
-sds <- apply(betas,1,sd)
-betas <- betas[order(sds,decreasing=TRUE)[1:10000],]
-y <- anno$`methylation class:ch1`
-save(betas,y,file="MNPbetas10Kvar.RData")  

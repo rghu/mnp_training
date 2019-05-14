@@ -16,18 +16,20 @@ library(conumee)
 library(GEOquery)
 
 # load conumee annoatation object
-load("./CNV_data/CNanalysis4_conumee_ANNO.vh20150715.RData")
+load(file.path("CNV_data","CNanalysis4_conumee_ANNO.vh20150715.RData"))
 # load conumee reference male
-load("./CNV_data/CNanalysis4_conumee_REF-M.vh20150715.RData")
+load(file.path("CNV_data","CNanalysis4_conumee_REF-M.vh20150715.RData"))
 # load conumee reference female
-load("./CNV_data/CNanalysis4_conumee_REF-F.vh20150715.RData")
+load(file.path("CNV_data","CNanalysis4_conumee_REF-F.vh20150715.RData"))
 
 # get sample annotation from GEO
 gse <- getGEO("GSE90496", GSEMatrix=TRUE, getGPL=FALSE)
 anno <- pData(gse$GSE90496_series_matrix.txt.gz)
 
 # read raw data downloaded from GEO and extracted in GSE90496_RAW
-filepath <- paste0("GSE90496_RAW/",gsub("_Grn.*","",gsub(".*suppl/","",anno$supplementary_file)))
+fname <- paste0(gsub("_Grn.*","",gsub(".*suppl/","",anno$supplementary_file)))
+filepath <- file.path("GSE90496_RAW",fname)
+
 # read just the first sample
 RGset <- read.metharray(filepath[1],verbose=TRUE)
 
