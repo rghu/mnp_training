@@ -1,9 +1,7 @@
 DNA methylation-based classification of central nervous system tumours
 ================
 
-Collection of scripts used to perform DNA-methylation data analysis presented in
-
-[DNA methylation-based classification of central nervous system tumours](https://www.nature.com/articles/nature26000).
+Collection of scripts used to perform DNA-methylation data analysis presented in [DNA methylation-based classification of central nervous system tumours](https://www.nature.com/articles/nature26000). The raw data is publicly available at NCBI GEO under Accession number [GSE90496](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE90496).
 
 #### Preprocessing and Normalization
 
