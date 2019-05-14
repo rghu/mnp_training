@@ -1,5 +1,5 @@
 #--------------------------------------------------------------------
-# mutliclass brier
+# mutliclass brier score
 #
 #
 # Martin Sill
