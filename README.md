@@ -56,4 +56,4 @@ Example how TCGA 450k methylation data and ABSOLUTE tumor purity estimates can b
 cnv_analysis.R
 ```
 
-Example how the [conumee](http://bioconductor.org/packages/release/bioc/html/conumee.html) Bioconductor is applied to perform copy number variation analysis. Note, to get the reference objects stored in `./CNV_data`, [Git large file storage](https://git-lfs.github.com/) needs to be install before cloneing the repositorium.
+Example how the [conumee](http://bioconductor.org/packages/release/bioc/html/conumee.html) Bioconductor is applied to perform copy number variation analysis. Note, to get the reference objects stored in `./CNV_data`, [Git large file storage](https://git-lfs.github.com/) needs to be installed before cloning the repository.
