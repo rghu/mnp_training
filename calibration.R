@@ -17,13 +17,13 @@ library(glmnet)
 library(doParallel)
 library(HandTill2001)
 
-cores <- 4
+cores <- 15
 
 registerDoParallel(cores)
 
 message("loading data ...",Sys.time())
 load(file.path("results","Mset_filtered.RData"))
-load(file.path("CV","nfold.RData"))
+load(file.path("CV","nfolds.RData"))
 
 for(i in 1:length(nfolds)){
   scores <- list() 

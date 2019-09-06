@@ -21,14 +21,16 @@ source(file.path("R","MNPprocessIDAT_functions.R"))
 dir.create("results")
 
 # get sample annotation from GEO
-gse <- getGEO("GSE90496", GSEMatrix=TRUE, getGPL=FALSE)
-anno <- pData(gse$GSE90496_series_matrix.txt.gz)
+#gse <- getGEO("GSE90496", GSEMatrix=TRUE, getGPL=FALSE)
+#anno <- pData(gse$GSE90496_series_matrix.txt.gz)
+gse <- getGEO(filename="/home/raghuc/Documents/MethylClass/Code/data/train/GSE90496_series_matrix.txt.gz", GSEMatrix=TRUE, getGPL=FALSE)
+anno <- pData(gse)
 
 # train just on the ATRTs 
-anno <- anno[grep("ATRT",anno$`methylation class:ch1`),]
+#anno <- anno[grep("ATRT",anno$`methylation class:ch1`),]
 
 # read raw data downloaded from GEO and extracted in GSE90496_RAW
-filepath <- file.path("GSE90496_RAW",gsub("_Grn.*","",gsub(".*suppl/","",anno$supplementary_file)))
+filepath <- file.path("/home/raghuc/Documents/MethylClass/Code/data/train/",gsub("_Grn.*","",gsub(".*suppl/","",anno$supplementary_file)))
 RGset <- read.metharray(filepath,verbose=TRUE)
 
 # Illumina normalization
@@ -54,7 +56,7 @@ remove <- unique(c(match(amb.filter[,1], rownames(Mset)),
 
 Mset_filtered <- Mset[-remove,]
 
-save(Mset,anno,file=file.path("results","Mset_filtered.RData"))  
+save(Mset_filtered,anno,file=file.path("results","Mset_filtered.RData"))  
 
 rm(Mset)
 gc()

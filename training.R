@@ -18,7 +18,7 @@ rm(list=ls())
 library(randomForest)
 library(parallel)
 
-ntrees <- 500  # 10000 in the paper, here 500 to speed up the example
+ntrees <- 10000 #500  # 10000 in the paper, here 500 to speed up the example
 cores <- 4
 seed <- 180314
 p <- 10000   
@@ -31,7 +31,7 @@ source(file.path("R","train.R"))
 y <- as.factor(anno$`methylation class:ch1`)
 
 # sd pre filtering to 20k probes, to speed up the example
-betas <- betas[,order(-apply(betas,2,sd))[1:20000]]
+#betas <- betas[,order(-apply(betas,2,sd))[1:20000]]
 
 set.seed(seed,kind ="L'Ecuyer-CMRG") 
 message("seed: ",seed)
@@ -51,7 +51,7 @@ rf.varsel <- rfp(betas,
 imp.meandecrease <- rf.varsel$importance[,dim(rf.varsel$importance)[2]-1]
 
 # save selection forest
-save(rf.varsel,file=file.patht("results","varsel.RData"))
+save(rf.varsel,file=file.path("results","varsel.RData"))
 rm(rf.varsel)
 
 # reduce data matrix

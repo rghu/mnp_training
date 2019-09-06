@@ -22,7 +22,7 @@ calcultateCVfold <- function(Mset,y,batch,fold,p,cores,ntrees){
   badj <- batchadjust(Mset,batch,fold)
   
   # sd pre filtering to 20k probes, to speed up the example
-  badj$betas.train <- badj$betas.train[,order(-apply(badj$betas.train,2,sd))[1:20000]]
+#  badj$betas.train <- badj$betas.train[,order(-apply(badj$betas.train,2,sd))[1:20000]]
   
   message("performing variable selection ...",Sys.time())
   message("cores: ",cores)

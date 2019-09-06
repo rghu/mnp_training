@@ -16,7 +16,7 @@ library(parallel)
 library(minfi)
 library(limma)
 
-ntrees <- 500
+ntrees <- 10000 #500
 cores <- 4
 seed <- 180314
 p <- 10000
@@ -64,7 +64,7 @@ for(K in 1:folds){
       fold <- nfolds[[K]][[1]][[1]]
     }
     
-    rf.scores <- calcultateCVfold(Mset,y,batch,fold,p,cores,ntrees)
+    rf.scores <- calcultateCVfold(Mset_filtered,y,batch,fold,p,cores,ntrees)
     
     fname <- paste("CVfold",K,k,"RData",sep=".")
     save(rf.scores,file=file.path("CV",fname))
