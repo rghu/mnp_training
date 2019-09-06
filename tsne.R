@@ -36,6 +36,11 @@ pca <- prcomp_svds(betas,k=94)
 # calculate tSNE
 res <- Rtsne(pca$x,pca=F,max_iter=2500,theta=0,verbose=T)
 
+tsne_df = data.frame(tsne1 = res$Y[,1], tsne2 = res$Y[,2], grp = y)
+write.csv(tsne_df, file.path("results","tsne.csv"))
+
 # scatterplot tSNE
+pdf(file.path("results","tsne.pdf"))
 plot(res$Y,pch=19,col=y)
+dev.off()
 
