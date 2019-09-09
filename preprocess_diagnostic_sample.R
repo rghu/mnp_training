@@ -12,9 +12,9 @@ source(file.path("R","MNPprocessIDAT_functions.R"))
 option_list = list(
   make_option(c("-f", "--file"), type="character", default=NULL, 
               help="IDAT file location with basename", metavar="character"),
-  make_option(c("-o", "--batch_correct"), type="character", default="results/ba.coef.RData",
+  make_option(c("-b", "--batch_correct"), type="character", default="results/ba.coef.RData",
               help="Location of batch correction coefficient RData file [default= %default]", metavar="character"),
-  make_option(c("-o", "--sample_type"), type="character", default="FFPE", 
+  make_option(c("-t", "--sample_type"), type="character", default="FFPE", 
               help="Type of Sample (FFPE/Frozen) [default= %default]", metavar="character")
 ); 
  
